@@ -32,6 +32,42 @@ export default function FeaturedRows({ id, title, description }) {
           long={20}
           lat={0}
         />
+        <RestaurantCards
+          id={123}
+          imgUrl="https://links.papareact.com/gn7"
+          title="Noddles"
+          rating={4.7}
+          genre="Amarillo"
+          address=" 234 Main Street"
+          short_description="This is the restaurant you are looking for..."
+          dishes={[]}
+          long={20}
+          lat={0}
+        />
+        <RestaurantCards
+          id={123}
+          imgUrl="https://links.papareact.com/gn7"
+          title="Noddles"
+          rating={4.7}
+          genre="Amarillo"
+          address=" 234 Main Street"
+          short_description="This is the restaurant you are looking for..."
+          dishes={[]}
+          long={20}
+          lat={0}
+        />
+        <RestaurantCards
+          id={123}
+          imgUrl="https://links.papareact.com/gn7"
+          title="Noddles"
+          rating={4.7}
+          genre="Amarillo"
+          address=" 234 Main Street"
+          short_description="This is the restaurant you are looking for..."
+          dishes={[]}
+          long={20}
+          lat={0}
+        />
       </ScrollView>
     </View>
   );
