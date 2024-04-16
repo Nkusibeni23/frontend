@@ -7,7 +7,7 @@ export default function CategoryCard({ imgUrl, title }) {
       <View>
         <Image source={{ uri: imgUrl }} className="h-20 w-20 rounded-lg" />
         <Text className=" absolute bottom-1 left-1 text-white font-bold">
-          {title}
+          {title.length > 8 ? title.slice(0, 8) + "..." : title}
         </Text>
       </View>
     </TouchableOpacity>

@@ -1,9 +1,31 @@
 import { View, Text, ScrollView } from "react-native";
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { ArrowRightIcon } from "react-native-heroicons/outline";
 import RestaurantCards from "./RestaurantCards";
+import sanityClient from "../sanity";
 
 export default function FeaturedRows({ id, title, description }) {
+  const [restaurants, setRestaurants] = useState([]);
+  useEffect(() => {
+    sanityClient
+      .fetch(
+        `
+        *[_type == "featured" && _id == $id]{
+          ...,
+          restaurants[]->{
+            ...,
+            type->{name},
+            dishes[] ->
+          },
+        }[0] 
+        `,
+        { id }
+      )
+      .then((data) => {
+        setRestaurants(data?.restaurants);
+      });
+  }, []);
+  console.log(restaurants);
   return (
     <View>
       <View className=" mt-4 flex-row items-center justify-between px-4">
@@ -20,54 +42,22 @@ export default function FeaturedRows({ id, title, description }) {
         className=" pt-4"
       >
         {/* RestaurantCards.... */}
-        <RestaurantCards
-          id={123}
-          imgUrl="https://links.papareact.com/gn7"
-          title="Noddles"
-          rating={4.7}
-          genre="Amarillo"
-          address=" 234 Main Street"
-          short_description="This is the restaurant you are looking for..."
-          dishes={[]}
-          long={20}
-          lat={0}
-        />
-        <RestaurantCards
-          id={123}
-          imgUrl="https://links.papareact.com/gn7"
-          title="Noddles"
-          rating={4.7}
-          genre="Amarillo"
-          address=" 234 Main Street"
-          short_description="This is the restaurant you are looking for..."
-          dishes={[]}
-          long={20}
-          lat={0}
-        />
-        <RestaurantCards
-          id={123}
-          imgUrl="https://links.papareact.com/gn7"
-          title="Noddles"
-          rating={4.7}
-          genre="Amarillo"
-          address=" 234 Main Street"
-          short_description="This is the restaurant you are looking for..."
-          dishes={[]}
-          long={20}
-          lat={0}
-        />
-        <RestaurantCards
-          id={123}
-          imgUrl="https://links.papareact.com/gn7"
-          title="Noddles"
-          rating={4.7}
-          genre="Amarillo"
-          address=" 234 Main Street"
-          short_description="This is the restaurant you are looking for..."
-          dishes={[]}
-          long={20}
-          lat={0}
-        />
+
+        {restaurants.map((restaurant) => (
+          <RestaurantCards
+            key={restaurant._id}
+            id={restaurant._id}
+            imgUrl={restaurant.image}
+            title={restaurant.name}
+            rating={restaurant.rating}
+            address={restaurant.address}
+            dishes={restaurant.dishes}
+            short_description={restaurant.short_description}
+            genre={restaurant.type?.name}
+            long={restaurant.long}
+            lat={restaurant.lat}
+          />
+        ))}
       </ScrollView>
     </View>
   );

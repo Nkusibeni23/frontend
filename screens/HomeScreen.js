@@ -7,16 +7,39 @@ import {
   TextInput,
   ScrollView,
 } from "react-native";
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { useNavigation } from "@react-navigation/native";
 import { ChevronDownIcon, UserIcon } from "react-native-heroicons/outline";
 import { Ionicons } from "@expo/vector-icons";
 import Svg, { Path } from "react-native-svg";
 import Categories from "../components/categories";
 import FeaturedRows from "../components/FeaturedRows";
+import sanityClient from "../sanity";
+import category from "../santiy/schemaTypes/category";
 
 export default function HomeScreen() {
   const navigation = useNavigation();
+  const [featureCategories, setFeaturedCategories] = useState([]);
+
+  useEffect(() => {
+    sanityClient
+      .fetch(
+        `
+    *[_type == "featured"]{
+      ...,
+      restaurants[]->{
+        ...,
+        dishes[] ->
+      }
+    }
+    `
+      )
+      .then((data) => {
+        setFeaturedCategories(data);
+      });
+  }, []);
+
+  // console.log(featureCategories);
 
   return (
     <SafeAreaView className="bg-white">
@@ -68,12 +91,16 @@ export default function HomeScreen() {
         <Categories />
 
         {/* featured rows */}
-        <FeaturedRows
-          id="12"
-          title="Featured"
-          description="Paid placements from our partners!"
-        />
-        <FeaturedRows
+        {featureCategories?.map((category) => (
+          <FeaturedRows
+            key={category._id}
+            id={category._id}
+            title={category.name}
+            description={category.short_description}
+          />
+        ))}
+
+        {/* <FeaturedRows
           id="12"
           title="Tasty Discount"
           description="Discount plans from our partners!"
@@ -82,7 +109,7 @@ export default function HomeScreen() {
           id="12"
           title="Offer near you!"
           description="why not support your local restaurant today?"
-        />
+        /> */}
       </ScrollView>
       <StatusBar style="dark-content" />
     </SafeAreaView>
