@@ -31,7 +31,7 @@ export default function DeliveryScreen() {
           <View className="flex-row justify-between">
             <View>
               <Text className=" text-lg text-gray-500">Estimated Arrival</Text>
-              <Text className=" text-4xl font-bold">30-60 Minutes</Text>
+              <Text className=" text-3xl font-extrabold">30-60 Minutes</Text>
             </View>
             <Animatable.Image
               source={require("../assets/images/image_processing20220111-6085-x3omkr.gif")}

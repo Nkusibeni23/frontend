@@ -11,7 +11,6 @@ import React, { useEffect, useState } from "react";
 import { useNavigation } from "@react-navigation/native";
 import { ChevronDownIcon, UserIcon } from "react-native-heroicons/outline";
 import { Ionicons } from "@expo/vector-icons";
-import Svg, { Path } from "react-native-svg";
 import Categories from "../components/categories";
 import FeaturedRows from "../components/FeaturedRows";
 import sanityClient from "../sanity";
